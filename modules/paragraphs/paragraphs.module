@@ -281,6 +281,21 @@ function template_preprocess_paragraph(&$variables) {
   $variables['view_mode'] = $variables['elements']['#view_mode'];
   $variables['paragraph'] = $variables['elements']['#paragraph'];
 
+  /** This block is to add a background image to a paragraph type banner
+  * as called out by this Udemy lesson 
+  * https://www.udemy.com/course/drupal-8-site-building/learn/lecture/6857200#overview
+  */
+
+  $newparagraph = $variables['paragraph'];
+  if (!empty($newparagraph->field_image))
+   {
+    $image = $newparagraph->field_image->entity->url();
+    $newparagraph = $variables['attributes']['style'][] = 'border: 5px solid red;'; 
+    $newparagraph = $variables['attributes']['style'][] = 'background-image: url("' . $image . '");';
+    $newparagraph = $variables['attributes']['style'][] = 'background-size: cover;';
+    $newparagraph = $variables['attributes']['style'][] = 'background-position: center center;';
+  }
+
   // Helpful $content variable for templates.
   $variables += array('content' => array());
   foreach (Element::children($variables['elements']) as $key) {
